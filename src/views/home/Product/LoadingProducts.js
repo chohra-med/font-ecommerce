@@ -10,6 +10,7 @@ import {connect} from "react-redux";
 import View from "../home.view";
 import Product from "./Product";
 import {catcher} from "../../../utils/catcher";
+import LoadingView from "./LoadingView";
 
 const useStyles = theme => ({
     card: {
@@ -44,46 +45,54 @@ const useStyles = theme => ({
 class LoadingProducts extends React.PureComponent {
     constructor(props) {
         super(props);
-        this.state={
-            page:1,
-            scrolling:false,
-            finishScrolling:false,
+        this.state = {
+            page: 1,
+            loading: false,
+            finishScrolling: false,
         }
     }
+
     loadMore = () => {
         this.setState(
             {
                 page: this.state.page + 1,
                 scrolling: true
             });
-            this.props.loadMoreData(this.state.page).then(res=>{
-                if(res.length<28){
-                    this.setState({finishScrolling:true})
-                }
-            }).catch(e=>catcher(e));
+        this.props.loadMoreData(this.state.page).then(res => {
+            if (res.length < 28) {
+                this.setState({finishScrolling: true})
+            }
+            this.setState({loading:false})
+        }).catch(e => catcher(e));
 
     }
+
     isBottom(el) {
         return el.getBoundingClientRect().bottom <= window.innerHeight;
     }
+
     handleScroll = () => {
         const wrappedElement = document.getElementById('products');
         if (this.isBottom(wrappedElement)) {
-            alert('header bottom reached');
+            this.setState({
+                    loading: true
+                },
+                ()=>  this.loadMore()
+            );
         }
 
     };
-    componentWillMount() {
-        this.scrollListener = window.addEventListener("scroll", e => {
-            this.loadMore();
-        });
-    }
 
+    componentWillMount() {
+        this.scrollListener = window.addEventListener("scroll", this.handleScroll
+        );
+    }
 
 
     render() {
 
         const {displayedProducts, classes} = this.props;
+        const {finishScrolling,loading} = this.state;
         return (
             <Grid container spacing={3} id="products">
 
@@ -95,10 +104,15 @@ class LoadingProducts extends React.PureComponent {
 
 
                 ))}
-                <div>
-
-
-                </div>
+                {
+                 loading && <LoadingView/>
+                }
+                {
+                finishScrolling &&
+                <Typography variant="body2" >
+                    FINISH
+                </Typography>
+                }
             </Grid>
         );
     }

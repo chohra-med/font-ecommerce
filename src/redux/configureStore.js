@@ -14,8 +14,9 @@ const persistConfig = {
     key: 'root',
     keyPrefix: appName,
     storage: storage,
-    whitelist: ['products'],
-    // blacklist: ['sample'],
+    //whitelist: ['products'],
+    // it will be better to use storage, but Actually for the sake of the example, it is unncessary
+     blacklist: ['products'],
     // stateReconciler: autoMergeLevel2,
 };
 
