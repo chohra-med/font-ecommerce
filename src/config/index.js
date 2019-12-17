@@ -4,9 +4,9 @@ export const BASE_NAME = IS_DEV ? '' : '/Creattella E-Commerce';
 
  export const URL = 'http://localhost:3000';
 
-export const API = (model = undefined, id = undefined) => {
-    if (model && id) {
-        return `${URL}/api/${model}/${id}/`;
+export const API = (model = undefined, sort = undefined) => {
+    if (model && sort) {
+        return `${URL}/api/${model}?_sort=${sort}/`;
     }
     if (model) {
         return `${URL}/api/${model}/`;

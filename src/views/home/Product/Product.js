@@ -5,6 +5,7 @@ import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import CardMedia from "@material-ui/core/CardMedia";
 import Grid from "@material-ui/core/Grid";
+import {differenceTwoDatesInDays} from "../../../utils/helpers";
 
 const useStyles = theme => ({
     card: {
@@ -31,16 +32,28 @@ const useStyles = theme => ({
     },
     media: {
         height: 140,
-        background:'white',
+        background: 'white',
     },
+    price: {
+        width: '100%',
+        alignItems: 'flex-end',
+        justifyContent: 'flex-start',
+        background:'green'
+    },
+    date: {
+        width: '100%',
+        alignItems: 'flex-end',
+        justifyContent: 'flex-start',
+        background:'blue'
+    }
 
 });
 
 class Product extends React.PureComponent {
 
     render() {
-
         const {item, classes} = this.props;
+let diffDate=parseInt(differenceTwoDatesInDays( new Date(item.date),new Date()));
         return (
             <Card className={classes.card}
                   height={200}
@@ -59,9 +72,20 @@ class Product extends React.PureComponent {
                     </Typography>
                 </Grid>
                 <CardContent>
-                    <Typography variant="body2" component="p">
-                        {item.price} $
-                    </Typography>
+                    <div className={classes.price}>
+                        <Typography
+                            variant="body2" component="p">
+                            {item.price / 100} $
+                        </Typography>
+                    </div>
+                    <div className={classes.date}>
+                        <Typography
+
+                            variant="body2" component="p">
+                            {diffDate >= 7 ? new Date(item.date).toDateString() : `${diffDate} days ago`      }
+
+                        </Typography>
+                    </div>
                 </CardContent>
 
             </Card>

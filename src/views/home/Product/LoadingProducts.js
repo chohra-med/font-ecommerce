@@ -11,6 +11,7 @@ import View from "../home.view";
 import Product from "./Product";
 import {catcher} from "../../../utils/catcher";
 import LoadingView from "./LoadingView";
+import {Box, CircularProgress} from "@material-ui/core";
 
 const useStyles = theme => ({
     card: {
@@ -39,6 +40,13 @@ const useStyles = theme => ({
         height: 140,
         background: 'white',
     },
+    finishText: {
+        fontSize: 14,
+        alignSelf: 'center',
+        justifySelf: 'center',
+        margin: 20,
+    },
+
 
 });
 
@@ -62,10 +70,9 @@ class LoadingProducts extends React.PureComponent {
             if (res.length < 28) {
                 this.setState({finishScrolling: true})
             }
-            this.setState({loading:false})
+            this.setState({loading: false})
         }).catch(e => catcher(e));
-
-    }
+    };
 
     isBottom(el) {
         return el.getBoundingClientRect().bottom <= window.innerHeight;
@@ -77,22 +84,20 @@ class LoadingProducts extends React.PureComponent {
             this.setState({
                     loading: true
                 },
-                ()=>  this.loadMore()
+                () => this.loadMore()
             );
         }
 
     };
 
     componentWillMount() {
-        this.scrollListener = window.addEventListener("scroll", this.handleScroll
-        );
+        this.scrollListener = window.addEventListener("scroll", this.handleScroll);
     }
 
 
     render() {
-
-        const {displayedProducts, classes} = this.props;
-        const {finishScrolling,loading} = this.state;
+        const {displayedProducts,dispalyedAds} = this.props;
+        const {finishScrolling, loading} = this.state;
         return (
             <Grid container spacing={3} id="products">
 
@@ -105,13 +110,32 @@ class LoadingProducts extends React.PureComponent {
 
                 ))}
                 {
-                 loading && <LoadingView/>
+                    loading &&
+                    <Box display='flex'
+                         flexDirection='column'
+                         alignItems='center'
+                         justifyContent='center'
+                         textAlign='center'
+                         margin={20}
+                         height={40}
+                         width={40}
+                    >
+                        <CircularProgress color='secondary'/>
+                    </Box>
+
                 }
+
                 {
-                finishScrolling &&
-                <Typography variant="body2" >
-                    FINISH
-                </Typography>
+                    finishScrolling &&
+                    <div style={{width: "100%", height: 40, alignItems: 'center', justifyContent: 'center'}}>
+                        <Typography style={{
+                            fontSize: 24,
+                            margin: 20,
+                        }}
+                                    variant="body2">
+                            FINISH
+                        </Typography>
+                    </div>
                 }
             </Grid>
         );
