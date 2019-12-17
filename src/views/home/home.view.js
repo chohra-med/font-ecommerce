@@ -32,7 +32,7 @@ class View extends React.PureComponent {
             variantSnackBar: 'info',
             refreshing: false,
             openDrawer: false,
-            value:'',
+            value: '',
         }
     }
 
@@ -66,8 +66,8 @@ class View extends React.PureComponent {
     };
 
 
-     handleChange = (event) => {
-        this.setState({value:event.target.value});
+    handleChange = (event) => {
+        this.setState({value: event.target.value});
     };
 
     render() {
@@ -102,16 +102,27 @@ class View extends React.PureComponent {
                 <SwipeableDrawer
                     open={openDrawer}
                     onOpen={this.toggleDrawer}
+                    classes={{
+                        paper: classNames(classes.drawerPaper, !openDrawer && classes.drawerPaperClose),
+                    }}
                     onClose={this.toggleDrawer}
                 >
                     <div
                         className={classes.list}
                         role="presentation"
                     >
-                        <RadioGroup aria-label="gender" name="gender1" value={value} onChange={this.handleChange}>
-                            <FormControlLabel value="female" control={<Radio />} label="Female" />
-                            <FormControlLabel value="male" control={<Radio />} label="Male" />
-                            <FormControlLabel value="other" control={<Radio />} label="Other" />
+                        <Typography  variant="body2" component="h3">
+                            Order Product By
+                        </Typography>
+                        <RadioGroup aria-label="gender" name="gender1" value={value}
+                                    style={{
+                                        marginTop:20,
+                                        spacing:10
+                                    }}
+                                    onChange={this.handleChange}>
+                            <FormControlLabel value="Size" control={<Radio/>} label="Female"/>
+                            <FormControlLabel value="male" control={<Radio/>} label="Male"/>
+                            <FormControlLabel value="other" control={<Radio/>} label="Other"/>
                         </RadioGroup>
 
                     </div>
