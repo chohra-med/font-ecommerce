@@ -21,6 +21,7 @@ import RadioGroup from "@material-ui/core/RadioGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Radio from "@material-ui/core/Radio";
 import SwipeableDrawer from "@material-ui/core/SwipeableDrawer";
+import LoadingProducts from "./Product/LoadingProducts";
 
 
 class View extends React.PureComponent {
@@ -136,21 +137,7 @@ class View extends React.PureComponent {
                     refreshing ?
                         <LoadingView/>
                         :
-                        <Grid container spacing={3}>
-
-
-                            {displayedProducts.map((item, key) => (
-                                <Grid item xs={6} sm={3} key={key}>
-                                    <Product item={item}/>
-                                </Grid>
-
-
-                            ))}
-                            <div>
-
-
-                            </div>
-                        </Grid>
+                      <LoadingProducts/>
 
                 }
             </div>

@@ -1,6 +1,6 @@
 import {connect} from "react-redux";
 import View from "./home.view";
-import {fetchProducts} from "../../redux/logics/products";
+import {fetchProducts, loadMoreData} from "../../redux/logics/products";
 
 const mapStateToProps = state => ({
     displayedProducts: state.products.displayedProducts,
@@ -9,7 +9,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-    fetchProducts: () => dispatch(fetchProducts()),
+    fetchProducts: () => dispatch(loadMoreData(1)),
 });
 
 export default connect(
