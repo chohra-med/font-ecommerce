@@ -6,7 +6,7 @@ export const BASE_NAME = IS_DEV ? '' : '/Creattella E-Commerce';
 
 export const API = (model = undefined, sort = undefined) => {
     if (model && sort) {
-        return `${URL}/api/${model}?_sort=${sort}/`;
+        return `${URL}/api/${model}&_sort=${sort}`;
     }
     if (model) {
         return `${URL}/api/${model}/`;

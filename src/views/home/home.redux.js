@@ -1,6 +1,7 @@
 import {connect} from "react-redux";
 import View from "./home.view";
 import {fetchProducts, loadMoreData} from "../../redux/logics/products";
+import {newSortAction} from "../../redux/actions/products";
 
 const mapStateToProps = state => ({
     displayedProducts: state.products.displayedProducts,
@@ -9,7 +10,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-    fetchProducts: () => dispatch(fetchProducts()),
+    fetchProducts: (sort) => dispatch(fetchProducts(sort)),
+    newSort:(sort)=>dispatch(newSortAction(sort))
 });
 
 export default connect(

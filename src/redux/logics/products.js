@@ -1,17 +1,17 @@
 import axios from "axios";
 import {API} from "../../config";
-import {} from "../actions/products";
 import {
     fetchProductsAction,
     fetchWaitingListAction,
     loadMoreDataAction,
-    addDisplayProductsAction
+    addDisplayProductsAction,
+    nextpageAction
 } from "../actions/products";
 
-export const fetchProducts = () => dispatch => {
-    return axios.get(API('products?_page=1&_limit=20')).then(res => {
+export const fetchProducts = (sort) => dispatch => {
+    return axios.get(API('products?_page=1&_limit=20',sort)).then(res => {
         dispatch(fetchProductsAction(res.data));
-        axios.get(API('products?_page=2&_limit=20')).then(waitingResult => {
+        axios.get(API('products?_page=2&_limit=20',sort)).then(waitingResult => {
             dispatch(fetchWaitingListAction(waitingResult.data));
             return res.data;
         })
@@ -25,17 +25,13 @@ export const addDisplayProducts = () => dispatch => {
         return res.data;
     });
 };
-export const loadMoreData = (data) => dispatch => {
+export const loadMoreData = (page,sort) => dispatch => {
     dispatch(loadMoreDataAction());
-    return axios.get(API('products?_page=' + data + '&_limit=20')).then(res => {
-        dispatch(fetchWaitingListAction(res.data));
-        return res.data;
-    });
-};
+    dispatch(nextpageAction());
 
-export const sortProducts = (data) => dispatch => {
-    return axios.get(API('products?_page=' + data.page + '&_limit=20' + '?sort=' + data.sortType)).then(res => {
-        dispatch(addDisplayProductsAction(res.data));
+    return axios.get(API('products?_page=' + page + '&_limit=20',sort)).then(res => {
+        dispatch(fetchWaitingListAction(res.data));
+
         return res.data;
     });
 };

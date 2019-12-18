@@ -3,6 +3,9 @@ export default {
         displayedProducts:[],
         waitingListProducts:[],
         dispalyedAds:[],
+        page:3,
+        sort:null,
+
 
     }
 };

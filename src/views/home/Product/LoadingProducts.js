@@ -54,26 +54,24 @@ class LoadingProducts extends React.PureComponent {
     constructor(props) {
         super(props);
         this.state = {
-            page: 2,
             loading: false,
             finishScrolling: false,
         }
     }
 
     loadMore = () => {
-        this.setState(
-            {
-                page: this.state.page + 1,
-            },
-            ()=>{
-                this.props.loadMoreData(this.state.page).then(res => {
+
+                const {
+                    page,sort
+                }=this.props;
+                console.log('page et sort',page,sort);
+                this.props.loadMoreData(page,sort).then(res => {
                     if (res.length < 19) {
                         this.setState({finishScrolling: true})
                     }
                     this.setState({loading: false})
                 }).catch(e => catcher(e));
-            }
-            );
+
     };
 
     isBottom(el) {
@@ -98,13 +96,32 @@ class LoadingProducts extends React.PureComponent {
 
 
     render() {
-        const {displayedProducts, dispalyedAds} = this.props;
+        const {displayedProducts} = this.props;
         const {finishScrolling, loading} = this.state;
         return (
             <Grid container spacing={3} id="products">
 
 
                 {displayedProducts.map((item, key) => (
+                   ((key+1) % 21)==0 ?
+                    <Box display='flex'
+                    flexDirection='column'
+                    alignItems='center'
+                    justifyContent='center'
+                    textAlign='center'
+                    margin={20}
+                    height={40}
+                    width={'100%'}
+                    >
+                    <Typography color='black'>
+                    loading....
+                    </Typography>
+                    </Box>
+                    :
+
+
+
+
                     <Grid item xs={6} sm={3} key={key}>
                         <Product item={item}/>
                     </Grid>
@@ -145,7 +162,7 @@ class LoadingProducts extends React.PureComponent {
                             margin: 20,
                         }}
                                     variant="body2">
-                            ~ end of catalogue ~"
+                            ~ end of catalogue ~
                         </Typography>
                     </Box>
                 }
@@ -156,11 +173,14 @@ class LoadingProducts extends React.PureComponent {
 
 const mapStateToProps = state => ({
     displayedProducts: state.products.displayedProducts,
+    page:state.products.page,
+    sort:state.products.sort,
+
 
 });
 
 const mapDispatchToProps = dispatch => ({
-    loadMoreData: (data) => dispatch(loadMoreData(data)),
+    loadMoreData: (page,sort) => dispatch(loadMoreData(page,sort)),
 });
 
 export default connect(

@@ -22,6 +22,8 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Radio from "@material-ui/core/Radio";
 import SwipeableDrawer from "@material-ui/core/SwipeableDrawer";
 import LoadingProducts from "./Product/LoadingProducts";
+import {fetchProducts} from "../../redux/logics/products";
+import {newSortAction} from "../../redux/actions/products";
 
 
 class View extends React.PureComponent {
@@ -68,21 +70,32 @@ class View extends React.PureComponent {
 
 
     handleChange = (event) => {
-        this.setState({value: event.target.value});
+        const {fetchProducts,newSort} = this.props;
+        let value=event.target.value;
+        this.setState({
+            refreshing: true,
+            value
+        }, async () => {
+            try {
+                await fetchProducts(value);
+                await newSort(value);
+            } catch (e) {
+                catcher(this.showSnackBar);
+            }
+            this.setState({
+                refreshing: false,
+            })
+        });
+
     };
 
     render() {
         const {classes} = this.props;
-
         const {
             refreshing,
             openDrawer,
             value
         } = this.state;
-        const {
-            displayedProducts,
-        } = this.props;
-
         return (
             <div
             >
@@ -112,18 +125,19 @@ class View extends React.PureComponent {
                         className={classes.list}
                         role="presentation"
                     >
-                        <Typography  variant="body2" component="h3">
+                        <Typography variant="body2" component="h3">
                             Order Product By
                         </Typography>
                         <RadioGroup aria-label="gender" name="gender1" value={value}
                                     style={{
-                                        marginTop:20,
-                                        spacing:10
+                                        marginTop: 20,
+                                        spacing: 10
                                     }}
                                     onChange={this.handleChange}>
-                            <FormControlLabel value="Size" control={<Radio/>} label="Female"/>
-                            <FormControlLabel value="male" control={<Radio/>} label="Male"/>
-                            <FormControlLabel value="other" control={<Radio/>} label="Other"/>
+                            <FormControlLabel value={null} control={<Radio/>} label="Random"/>
+                            <FormControlLabel value="id" control={<Radio/>} label="Id"/>
+                            <FormControlLabel value="size" control={<Radio/>} label="Size"/>
+                            <FormControlLabel value="price" control={<Radio/>} label="Price"/>
                         </RadioGroup>
 
                     </div>
@@ -137,7 +151,7 @@ class View extends React.PureComponent {
                     refreshing ?
                         <LoadingView/>
                         :
-                      <LoadingProducts/>
+                        <LoadingProducts/>
 
                 }
             </div>
