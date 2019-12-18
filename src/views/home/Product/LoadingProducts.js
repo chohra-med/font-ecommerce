@@ -54,7 +54,7 @@ class LoadingProducts extends React.PureComponent {
     constructor(props) {
         super(props);
         this.state = {
-            page: 1,
+            page: 2,
             loading: false,
             finishScrolling: false,
         }
@@ -64,14 +64,16 @@ class LoadingProducts extends React.PureComponent {
         this.setState(
             {
                 page: this.state.page + 1,
-                scrolling: true
-            });
-        this.props.loadMoreData(this.state.page).then(res => {
-            if (res.length < 28) {
-                this.setState({finishScrolling: true})
+            },
+            ()=>{
+                this.props.loadMoreData(this.state.page).then(res => {
+                    if (res.length < 19) {
+                        this.setState({finishScrolling: true})
+                    }
+                    this.setState({loading: false})
+                }).catch(e => catcher(e));
             }
-            this.setState({loading: false})
-        }).catch(e => catcher(e));
+            );
     };
 
     isBottom(el) {
@@ -80,7 +82,7 @@ class LoadingProducts extends React.PureComponent {
 
     handleScroll = () => {
         const wrappedElement = document.getElementById('products');
-        if (this.isBottom(wrappedElement)) {
+        if (this.isBottom(wrappedElement) && !this.state.finishScrolling) {
             this.setState({
                     loading: true
                 },
@@ -96,7 +98,7 @@ class LoadingProducts extends React.PureComponent {
 
 
     render() {
-        const {displayedProducts,dispalyedAds} = this.props;
+        const {displayedProducts, dispalyedAds} = this.props;
         const {finishScrolling, loading} = this.state;
         return (
             <Grid container spacing={3} id="products">
@@ -118,24 +120,34 @@ class LoadingProducts extends React.PureComponent {
                          textAlign='center'
                          margin={20}
                          height={40}
-                         width={40}
+                         width={'100%'}
                     >
-                        <CircularProgress color='secondary'/>
+                        <Typography color='black'>
+                            loading....
+                        </Typography>
                     </Box>
 
                 }
 
                 {
                     finishScrolling &&
-                    <div style={{width: "100%", height: 40, alignItems: 'center', justifyContent: 'center'}}>
+                    <Box display='flex'
+                         flexDirection='column'
+                         alignItems='center'
+                         justifyContent='center'
+                         textAlign='center'
+                         margin={20}
+                         height={40}
+                         width={'100%'}
+                    >
                         <Typography style={{
                             fontSize: 24,
                             margin: 20,
                         }}
                                     variant="body2">
-                            FINISH
+                            ~ end of catalogue ~"
                         </Typography>
-                    </div>
+                    </Box>
                 }
             </Grid>
         );
