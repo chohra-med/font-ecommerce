@@ -20,6 +20,7 @@ export const fetchProducts = (sort) => dispatch => {
 
 
 export const addDisplayProducts = () => dispatch => {
+
     return axios.get(API('/ads/?r=' + Math.floor(Math.random() * 1000))).then(res => {
         dispatch(addDisplayProductsAction(res.data));
         return res.data;

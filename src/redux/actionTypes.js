@@ -1,6 +1,6 @@
 export const FETCH_PRODUCTS = 'FETCH_PRODUCTS';
 export const FETCH_WAITING_LIST = 'FETCH_WAITING_LIST';
-export const DISPLAY_PRODUCTS = 'DISPLAY_PRODUCTS';
+export const AD_PRODUCTS = 'AD_PRODUCTS';
 export const LOAD_MORE_PRODUCTS = 'LOAD_MORE_PRODUCTS';
 export const NEXT_PAGE = 'NEXT_PAGE';
 export const NEW_SORT = 'NEW_SORT';

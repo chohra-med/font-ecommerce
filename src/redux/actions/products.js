@@ -1,6 +1,6 @@
 import {
     FETCH_PRODUCTS,
-    DISPLAY_PRODUCTS,
+    AD_PRODUCTS,
     FETCH_WAITING_LIST, LOAD_MORE_PRODUCTS, NEXT_PAGE, NEW_SORT
 } from "../actionTypes";
 
@@ -16,7 +16,7 @@ export const fetchWaitingListAction = (payload=[]) => ({
 });
 
 export const addDisplayProductsAction = (payload) => ({
-    type: DISPLAY_PRODUCTS,
+    type: AD_PRODUCTS,
     payload,
 });
 

@@ -12,6 +12,10 @@ import Product from "./Product";
 import {catcher} from "../../../utils/catcher";
 import LoadingView from "./LoadingView";
 import {Box, CircularProgress} from "@material-ui/core";
+import {Image} from "@material-ui/icons";
+import {addDisplayProductsAction} from "../../../redux/actions/products";
+import {API} from "../../../config";
+import Container from "@material-ui/core/Container";
 
 const useStyles = theme => ({
     card: {
@@ -46,6 +50,9 @@ const useStyles = theme => ({
         justifySelf: 'center',
         margin: 20,
     },
+    root: {
+        flexGrow: 1,
+    },
 
 
 });
@@ -56,23 +63,39 @@ class LoadingProducts extends React.PureComponent {
         this.state = {
             loading: false,
             finishScrolling: false,
+            dispalyedAd: '',
+
         }
     }
 
     loadMore = () => {
 
-                const {
-                    page,sort
-                }=this.props;
-                console.log('page et sort',page,sort);
-                this.props.loadMoreData(page,sort).then(res => {
-                    if (res.length < 19) {
-                        this.setState({finishScrolling: true})
-                    }
-                    this.setState({loading: false})
-                }).catch(e => catcher(e));
+        const {
+            page, sort, dispalyedAds, loadMoreData, addDisplayProducts
+        } = this.props;
+        console.log('here');
 
-    };
+        let dispalyedAd = API('/ads/?r=' + Math.floor(Math.random() * 1000));
+        let exist = dispalyedAds.indexOf(dispalyedAd);
+
+        while (exist > 0) {
+            dispalyedAd = API('/ads/?r=' + Math.floor(Math.random() * 1000));
+            exist = dispalyedAds.indexOf(dispalyedAd);
+        }
+        this.setState({
+            dispalyedAd
+        }, () => {
+
+            loadMoreData(page, sort).then(res => {
+                if (res.length < 19) {
+                    this.setState({finishScrolling: true})
+                }
+                addDisplayProducts(dispalyedAd);
+                this.setState({loading: false})
+            }).catch(e => catcher(e));
+        });
+    }
+    ;
 
     isBottom(el) {
         return el.getBoundingClientRect().bottom <= window.innerHeight;
@@ -96,38 +119,34 @@ class LoadingProducts extends React.PureComponent {
 
 
     render() {
-        const {displayedProducts} = this.props;
-        const {finishScrolling, loading} = this.state;
+        const {displayedProducts, dispalyedAds, page} = this.props;
+        const {finishScrolling, loading, dispalyedAd} = this.state;
         return (
-            <Grid container spacing={3} id="products">
+            <Grid container spacing={3}
+                  id="products">
+                {
+                    displayedProducts.map((item, key) => (
+                        <>
+                            <Grid item xs={6} sm={3} key={key}>
+                                <Product item={item}/>
+                            </Grid>
+                            {(key + 1) % 20 === 0 &&
 
-
-                {displayedProducts.map((item, key) => (
-                   ((key+1) % 21)==0 ?
-                    <Box display='flex'
-                    flexDirection='column'
-                    alignItems='center'
-                    justifyContent='center'
-                    textAlign='center'
-                    margin={20}
-                    height={40}
-                    width={'100%'}
-                    >
-                    <Typography color='black'>
-                    loading....
-                    </Typography>
-                    </Box>
-                    :
-
-
-
-
-                    <Grid item xs={6} sm={3} key={key}>
-                        <Product item={item}/>
-                    </Grid>
-
-
-                ))}
+                            <Grid item xs={12}>
+                                <Typography>
+                                    {key}
+                                </Typography>
+                                <img src={dispalyedAds[(key + 1) / 20]}
+                                     style={{
+                                         width: '90%',
+                                         height:100,
+                                     }}
+                                />
+                            </Grid>
+                            }
+                        </>
+                    ))
+                }
                 {
                     loading &&
                     <Box display='flex'
@@ -173,14 +192,16 @@ class LoadingProducts extends React.PureComponent {
 
 const mapStateToProps = state => ({
     displayedProducts: state.products.displayedProducts,
-    page:state.products.page,
-    sort:state.products.sort,
+    page: state.products.page,
+    sort: state.products.sort,
+    dispalyedAds: state.products.dispalyedAds,
 
 
 });
 
 const mapDispatchToProps = dispatch => ({
-    loadMoreData: (page,sort) => dispatch(loadMoreData(page,sort)),
+    loadMoreData: (page, sort) => dispatch(loadMoreData(page, sort)),
+    addDisplayProducts: (data) => dispatch(addDisplayProductsAction(data)),
 });
 
 export default connect(

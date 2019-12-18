@@ -1,5 +1,4 @@
-import {FETCH_PRODUCTS, FETCH_WAITING_LIST, LOAD_MORE_PRODUCTS, NEW_SORT, NEXT_PAGE} from "../actionTypes";
-import _ from 'lodash';
+import {AD_PRODUCTS, FETCH_PRODUCTS, FETCH_WAITING_LIST, LOAD_MORE_PRODUCTS, NEW_SORT, NEXT_PAGE} from "../actionTypes";
 import initialState from '../initialState';
 
 export default (state = initialState.products, action) => {
@@ -22,13 +21,18 @@ export default (state = initialState.products, action) => {
         case NEXT_PAGE:
             return {
                 ...state,
-                page: state.page+1,
+                page: state.page + 1,
             };
         case NEW_SORT:
             return {
                 ...state,
                 sort: action.payload,
-                page:3,
+                page: 3,
+            };
+        case AD_PRODUCTS:
+            return {
+                ...state,
+                dispalyedAds: [...state.dispalyedAds,action.payload],
             };
 
 
