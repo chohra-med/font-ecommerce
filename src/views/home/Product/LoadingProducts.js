@@ -27,11 +27,8 @@ class LoadingProducts extends React.PureComponent {
         const {
             page, sort, dispalyedAds, loadMoreData, addDisplayProducts
         } = this.props;
-        console.log('here');
-
         let dispalyedAd = API('/ads/?r=' + Math.floor(Math.random() * 1000));
         let exist = dispalyedAds.indexOf(dispalyedAd);
-
         while (exist > 0) {
             dispalyedAd = API('/ads/?r=' + Math.floor(Math.random() * 1000));
             exist = dispalyedAds.indexOf(dispalyedAd);
