@@ -24,6 +24,8 @@ import SwipeableDrawer from "@material-ui/core/SwipeableDrawer";
 import LoadingProducts from "./Product/LoadingProducts";
 import {fetchProducts} from "../../redux/logics/products";
 import {newSortAction} from "../../redux/actions/products";
+import {Copyright} from "@material-ui/icons";
+import Container from "@material-ui/core/Container";
 
 
 class View extends React.PureComponent {
@@ -154,6 +156,22 @@ class View extends React.PureComponent {
                         <LoadingProducts/>
 
                 }
+
+                <footer className={classes.footer}>
+                    <Container maxWidth="lg">
+                        <Typography variant="h6" align="center" gutterBottom>
+                            E-Commerce Creatella
+                        </Typography>
+                        <Typography variant="subtitle1" align="center" color="textSecondary" component="p">
+                            Selling Emoji never been easier
+                        </Typography>
+                        <Typography variant="body2" color="textSecondary" align="center">
+                            {'Copyright © '}
+                                Creatella
+                            {new Date().getFullYear()}
+                            {'.'}
+                        </Typography>                    </Container>
+                </footer>
             </div>
         );
     }

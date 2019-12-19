@@ -38,13 +38,13 @@ const useStyles = theme => ({
         width: '100%',
         alignItems: 'flex-end',
         justifyContent: 'flex-start',
-        background:'green'
+        background: 'green'
     },
     date: {
         width: '100%',
         alignItems: 'flex-end',
         justifyContent: 'flex-start',
-        background:'blue'
+        background: 'blue'
     }
 
 });
@@ -53,7 +53,7 @@ class Product extends React.PureComponent {
 
     render() {
         const {item, classes} = this.props;
-let diffDate=parseInt(differenceTwoDatesInDays( new Date(item.date),new Date()));
+        let diffDate = parseInt(differenceTwoDatesInDays(new Date(item.date), new Date()));
         return (
             <Card className={classes.card}
                   height={200}
@@ -72,18 +72,14 @@ let diffDate=parseInt(differenceTwoDatesInDays( new Date(item.date),new Date()))
                     </Typography>
                 </Grid>
                 <CardContent>
-                    <div className={classes.price}>
-                        <Typography
-                            variant="body2" component="p">
-                            {item.price / 100} $
-                        </Typography>
-                    </div>
+                    <Typography
+                        component="p">
+                        {item.price / 100} $
+                    </Typography>
                     <div className={classes.date}>
                         <Typography
-
                             variant="body2" component="p">
-                            {diffDate >= 7 ? new Date(item.date).toDateString() : `${diffDate} days ago`      }
-
+                            {diffDate >= 7 ? new Date(item.date).toDateString() : `${diffDate} days ago`}
                         </Typography>
                     </div>
                 </CardContent>

@@ -119,10 +119,15 @@ class LoadingProducts extends React.PureComponent {
 
 
     render() {
-        const {displayedProducts, dispalyedAds, page} = this.props;
-        const {finishScrolling, loading, dispalyedAd} = this.state;
+        const {displayedProducts, dispalyedAds} = this.props;
+        const {finishScrolling, loading} = this.state;
         return (
-            <Grid container spacing={3}
+            <Grid spacing={3}
+                  container
+                  direction="row"
+                  justify="center"
+                  alignItems="center"
+
                   id="products">
                 {
                     displayedProducts.map((item, key) => (
@@ -132,15 +137,18 @@ class LoadingProducts extends React.PureComponent {
                             </Grid>
                             {(key + 1) % 20 === 0 &&
 
-                            <Grid item xs={12}>
-                                <Typography>
-                                    {key}
-                                </Typography>
+                            <Grid
+                                justify="center"
+                                alignItems="center"
+
+                                item xs={12}
+                            >
                                 <img src={dispalyedAds[(key + 1) / 20]}
                                      style={{
                                          width: '90%',
-                                         height:100,
+                                         height: '90%',
                                      }}
+
                                 />
                             </Grid>
                             }
