@@ -1,61 +1,15 @@
 import React from 'react';
 import {withStyles} from '@material-ui/core/styles';
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
-import CardMedia from "@material-ui/core/CardMedia";
 import Grid from "@material-ui/core/Grid";
-import {fetchProducts, loadMoreData} from "../../../redux/logics/products";
+import {loadMoreData} from "../../../redux/logics/products";
 import {connect} from "react-redux";
-import View from "../home.view";
 import Product from "./Product";
 import {catcher} from "../../../utils/catcher";
-import LoadingView from "./LoadingView";
-import {Box, CircularProgress} from "@material-ui/core";
-import {Image} from "@material-ui/icons";
+import {Box} from "@material-ui/core";
 import {addDisplayProductsAction} from "../../../redux/actions/products";
 import {API} from "../../../config";
-import Container from "@material-ui/core/Container";
-
-const useStyles = theme => ({
-    card: {
-        minWidth: 275,
-        maxWidth: 320,
-        margin: '2px',
-        background: '#f1f1f1',
-        borderRadius: 3,
-        padding: theme.spacing(2),
-        textAlign: 'center',
-        color: theme.palette.text.secondary,
-    },
-
-    bullet: {
-        display: 'inline-block',
-        margin: '0 2px',
-        transform: 'scale(0.8)',
-    },
-    title: {
-        fontSize: 14,
-    },
-    pos: {
-        marginBottom: 12,
-    },
-    media: {
-        height: 140,
-        background: 'white',
-    },
-    finishText: {
-        fontSize: 14,
-        alignSelf: 'center',
-        justifySelf: 'center',
-        margin: 20,
-    },
-    root: {
-        flexGrow: 1,
-    },
-
-
-});
+import Paper from "@material-ui/core/Paper";
 
 class LoadingProducts extends React.PureComponent {
     constructor(props) {
@@ -127,8 +81,9 @@ class LoadingProducts extends React.PureComponent {
                   direction="row"
                   justify="center"
                   alignItems="center"
-
-                  id="products">
+                  style={{margin: 20, marginTop: 100, width: '95%'}}
+                  id="products"
+            >
                 {
                     displayedProducts.map((item, key) => (
                         <>
@@ -136,20 +91,23 @@ class LoadingProducts extends React.PureComponent {
                                 <Product item={item}/>
                             </Grid>
                             {(key + 1) % 20 === 0 &&
-
                             <Grid
-                                justify="center"
-                                alignItems="center"
-
-                                item xs={12}
+                                item
+                                xs={12}
+                                style={{
+                                    background: 'white',
+                                    alignItems:'center',
+                                }}
                             >
                                 <img src={dispalyedAds[(key + 1) / 20]}
                                      style={{
-                                         width: '90%',
-                                         height: '90%',
-                                     }}
+                                         width: '80%',
+                                         height: '20%',
+                                         alignSelf:'center'
 
+                                     }}
                                 />
+
                             </Grid>
                             }
                         </>
@@ -166,7 +124,7 @@ class LoadingProducts extends React.PureComponent {
                          height={40}
                          width={'100%'}
                     >
-                        <Typography color='black'>
+                        <Typography >
                             loading....
                         </Typography>
                     </Box>
@@ -184,11 +142,9 @@ class LoadingProducts extends React.PureComponent {
                          height={40}
                          width={'100%'}
                     >
-                        <Typography style={{
-                            fontSize: 24,
-                            margin: 20,
-                        }}
-                                    variant="body2">
+                        <Typography style={{fontSize: 24, margin: 20}}
+                                    variant="body2"
+                        >
                             ~ end of catalogue ~
                         </Typography>
                     </Box>
@@ -215,4 +171,4 @@ const mapDispatchToProps = dispatch => ({
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(withStyles(useStyles)(LoadingProducts));
+)(LoadingProducts);

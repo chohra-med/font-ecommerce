@@ -3,50 +3,26 @@ import {withStyles} from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
-import CardMedia from "@material-ui/core/CardMedia";
 import Grid from "@material-ui/core/Grid";
 import {differenceTwoDatesInDays} from "../../../utils/helpers";
 
 const useStyles = theme => ({
     card: {
-        minWidth: 275,
-        maxWidth: 320,
+        minWidth: '30%',
         margin: '2px',
-        background: '#f1f1f1',
+        background: 'white',
         borderRadius: 3,
         padding: theme.spacing(2),
-        textAlign: 'center',
+        textAlign: 'left',
         color: theme.palette.text.secondary,
-    },
-
-    bullet: {
-        display: 'inline-block',
-        margin: '0 2px',
-        transform: 'scale(0.8)',
-    },
-    title: {
-        fontSize: 14,
-    },
-    pos: {
-        marginBottom: 12,
     },
     media: {
         height: 140,
-        background: 'white',
+        background: '#FAFAFA',
+        borderRadius: 4,
+        borderColor: 'black',
+        color: theme.palette.text.secondary,
     },
-    price: {
-        width: '100%',
-        alignItems: 'flex-end',
-        justifyContent: 'flex-start',
-        background: 'green'
-    },
-    date: {
-        width: '100%',
-        alignItems: 'flex-end',
-        justifyContent: 'flex-start',
-        background: 'blue'
-    }
-
 });
 
 class Product extends React.PureComponent {
@@ -76,14 +52,14 @@ class Product extends React.PureComponent {
                         component="p">
                         {item.price / 100} $
                     </Typography>
-                    <div className={classes.date}>
-                        <Typography
-                            variant="body2" component="p">
-                            {diffDate >= 7 ? new Date(item.date).toDateString() : `${diffDate} days ago`}
-                        </Typography>
-                    </div>
+                    <Typography
+                        variant="body2" component="p"
+                        stlye={{
+                            color: 'grey'
+                        }}>
+                        {diffDate >= 7 ? new Date(item.date).toDateString() : `${diffDate} days ago`}
+                    </Typography>
                 </CardContent>
-
             </Card>
         );
     }

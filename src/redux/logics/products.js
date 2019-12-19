@@ -9,9 +9,10 @@ import {
 } from "../actions/products";
 
 export const fetchProducts = (sort) => dispatch => {
-    return axios.get(API('products?_page=1&_limit=20',sort)).then(res => {
+    dispatch(addDisplayProductsAction(API('/ads/?r=' + Math.floor(Math.random() * 1000))));
+    return axios.get(API('products?_page=1&_limit=20', sort)).then(res => {
         dispatch(fetchProductsAction(res.data));
-        axios.get(API('products?_page=2&_limit=20',sort)).then(waitingResult => {
+        axios.get(API('products?_page=2&_limit=20', sort)).then(waitingResult => {
             dispatch(fetchWaitingListAction(waitingResult.data));
             return res.data;
         })
@@ -19,18 +20,11 @@ export const fetchProducts = (sort) => dispatch => {
 };
 
 
-export const addDisplayProducts = () => dispatch => {
-
-    return axios.get(API('/ads/?r=' + Math.floor(Math.random() * 1000))).then(res => {
-        dispatch(addDisplayProductsAction(res.data));
-        return res.data;
-    });
-};
-export const loadMoreData = (page,sort) => dispatch => {
+export const loadMoreData = (page, sort) => dispatch => {
     dispatch(loadMoreDataAction());
     dispatch(nextpageAction());
 
-    return axios.get(API('products?_page=' + page + '&_limit=20',sort)).then(res => {
+    return axios.get(API('products?_page=' + page + '&_limit=20', sort)).then(res => {
         dispatch(fetchWaitingListAction(res.data));
 
         return res.data;
