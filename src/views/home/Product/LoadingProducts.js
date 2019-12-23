@@ -1,5 +1,4 @@
 import React from 'react';
-import {withStyles} from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Grid from "@material-ui/core/Grid";
 import {loadMoreData} from "../../../redux/logics/products";
@@ -9,7 +8,6 @@ import {catcher} from "../../../utils/catcher";
 import {Box} from "@material-ui/core";
 import {addDisplayProductsAction} from "../../../redux/actions/products";
 import {API} from "../../../config";
-import Paper from "@material-ui/core/Paper";
 
 class LoadingProducts extends React.PureComponent {
     constructor(props) {
@@ -18,12 +16,10 @@ class LoadingProducts extends React.PureComponent {
             loading: false,
             finishScrolling: false,
             dispalyedAd: '',
-
         }
     }
 
     loadMore = () => {
-
         const {
             page, sort, dispalyedAds, loadMoreData, addDisplayProducts
         } = this.props;
@@ -46,7 +42,6 @@ class LoadingProducts extends React.PureComponent {
             }).catch(e => catcher(e));
         });
     }
-    ;
 
     isBottom(el) {
         return el.getBoundingClientRect().bottom <= window.innerHeight;
@@ -93,14 +88,14 @@ class LoadingProducts extends React.PureComponent {
                                 xs={12}
                                 style={{
                                     background: 'white',
-                                    alignItems:'center',
+                                    alignItems: 'center',
                                 }}
                             >
                                 <img src={dispalyedAds[(key + 1) / 20]}
                                      style={{
                                          width: '80%',
                                          height: '20%',
-                                         alignSelf:'center'
+                                         alignSelf: 'center'
 
                                      }}
                                 />
@@ -121,7 +116,7 @@ class LoadingProducts extends React.PureComponent {
                          height={40}
                          width={'100%'}
                     >
-                        <Typography >
+                        <Typography>
                             loading....
                         </Typography>
                     </Box>
