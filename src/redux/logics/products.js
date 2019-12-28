@@ -5,7 +5,7 @@ import {
     fetchWaitingListAction,
     loadMoreDataAction,
     addDisplayProductsAction,
-    nextpageAction
+    nextPageAction
 } from "../actions/products";
 
 export const fetchProducts = (sort) => dispatch => {
@@ -22,7 +22,7 @@ export const fetchProducts = (sort) => dispatch => {
 
 export const loadMoreData = (page, sort) => dispatch => {
     dispatch(loadMoreDataAction());
-    dispatch(nextpageAction());
+    dispatch(nextPageAction());
 
     return axios.get(API('products?_page=' + page + '&_limit=20', sort)).then(res => {
         dispatch(fetchWaitingListAction(res.data));

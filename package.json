@@ -6,13 +6,16 @@
   "main": "server/index.js",
   "scripts": {
     "api": "json-server server/index.js --routes server/routes.json --middlewares server/handle-delay.js server/handle-ads.js && react-scripts start",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
+    "test:watch": "npm test -- --watch",
     "script": "PORT=8000 react-scripts start",
     "start": "concurrently \"npm run api\" \"npm run script\""
   },
   "author": "",
   "license": "",
   "dependencies": {
+    "@babel/preset-env": "^7.7.7",
+    "@babel/preset-react": "^7.7.4",
     "@material-ui/core": "^4.8.0",
     "@material-ui/icons": "^4.5.1",
     "@material-ui/pickers": "^3.2.6",
@@ -36,8 +39,15 @@
     "styled-components": "^4.4.0"
   },
   "devDependencies": {
+    "@testing-library/jest-dom": "^4.2.4",
+    "@testing-library/react": "^9.4.0",
+    "babel-jest": "^24.9.0",
+    "babel-polyfill": "^6.26.0",
     "classnames": "^2.2.6",
-    "react-helmet-async": "^1.0.4"
+    "jest": "^24.9.0",
+    "react-helmet-async": "^1.0.4",
+    "react-test-renderer": "^16.12.0",
+    "redux-mock-store": "^1.5.4"
   },
   "browserslist": {
     "production": [
