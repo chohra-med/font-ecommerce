@@ -41,6 +41,7 @@ Responsive Website         |  Loading..
     - theme: our Theme variable
     - views: our Views
     - Redux : 
+    
             - action: action folder 
             - reducer: reducer folder
             - logics: our funtions that calls the actions
